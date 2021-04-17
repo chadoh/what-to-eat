@@ -1,10 +1,10 @@
 {
-  "name": "",
+  "name": "what-to-eat",
   "version": "0.1.0",
   "private": true,
-  "description": "",
-  "repository": "",
-  "author": "",
+  "description": "a site that suggests meals to cook",
+  "repository": "https://github.com/chadoh/what-to-eat",
+  "author": "Chad Ostrowski <221614+chadoh@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
     "start": "parcel src/index.html",
