@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  font-size: calc(.85em + 1vmin);
+  line-height: 1.3;
+}
+
+body {
+  --primary: rgb(231, 59, 147);
+  --secondary: rgb(62, 140, 116);
+  --tertiary: rgb(226, 110, 44);
+
+  color: #1e1e1e;
+  margin: 0;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #1e1e1e;
+    color: #efefef
+  }
+}
+
+p + p {
+  margin-top: 0;
+}
+
+h1, #edit {
+  text-align: center;
+  width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+  max-width: 35em;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+#save, #edit {
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  position: relative;
+  transition: top 50ms;
+  &:hover, &:focus {
+    outline: none;
+    top: -1px;
+  }
+  &:active {
+    top: 1px;
+  }
+}
+
+#edit {
+  border: none;
+  color: var(--primary);
+  margin: 0;
+  padding: 0;
+  &:hover, &:focus {
+    color: var(--secondary);
+  }
+  &:active {
+    color: var(--tertiary);
+  }
+}
+
+#save {
+  border-radius: 5px;
+  border: 0.25em solid var(--primary);
+  margin-bottom: 1em;
+  padding: 0.5em 1em;
+  &:hover, &:focus {
+    border-color: var(--secondary);
+  }
+  &:active {
+    border-color: var(--tertiary);
+    background: var(--tertiary);
+  }
+}
+
+.arrow {
+  font-family: monospace;
+  content: ' ▾';
+  display: inline-block;
+  font-size: 1.2em;
+  transition: transform 200ms;
+  .active & {
+    transform: rotateZ(-90deg);
+  }
+}
+
+.hidden {
+  display: flex;
+  flex-direction: column;
+  height: 0;
+  overflow: hidden;
+  transition: height 200ms;
+  .active & {
+    min-height: 18em;
+    height: 66vh;
+  }
+}
+
+textarea {
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  flex: 1;
+  margin-bottom: 1em;
+  padding: 0.5em;
+}

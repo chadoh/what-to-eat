@@ -1,0 +1,25 @@
+{
+  "name": "",
+  "version": "0.1.0",
+  "private": true,
+  "description": "",
+  "repository": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html && html-inline -i dist/index.html -o docs/index.html -b dist"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && git add docs/index.html"
+    }
+  },
+  "devDependencies": {
+    "html-inline": "^1.2.0",
+    "husky": "^3.0.9",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.23.6",
+    "typescript": "^3.7.2"
+  }
+}
