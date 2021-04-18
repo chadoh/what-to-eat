@@ -1,3 +1,12 @@
+const suggestionEl = document.querySelector('#suggestion')
+const textarea = document.querySelector('textarea')
+const saveButton = document.querySelector('#save')
+const editButton = document.querySelector('#edit')
+const editArea = document.querySelector('#edit-area')
+if (!suggestionEl || !textarea || !saveButton || !editButton || !editArea) {
+  throw new Error('cannot find expected DOM elements')
+}
+
 const defaultPossibilities = `casserole
 waffles
 pasta
@@ -14,38 +23,35 @@ function getAll ({ raw = false } = {}) {
   return possibilities.split('\n')
 }
 
-const suggestionEl = document.querySelector('#suggestion')
-if (!suggestionEl) throw new Error('no #suggestion element found; aborting')
+function suggest () {
+  suggestionEl.innerHTML = '<span class="loader"></span>'
 
-async function suggest () {
   const possibilities = getAll()
   const suggestion = possibilities[
     Math.floor(Math.random() * possibilities.length)
   ]
-  suggestionEl.innerHTML = suggestion
+
+  setTimeout(() => {
+    suggestionEl.innerHTML = suggestion
+  }, 750)
+}
+
+function toggleEditor () {
+  const editing = editArea.className === 'active'
+  editArea.className = editing ? '' : 'active'
+  if (!editing) textarea.focus()
 }
 
 function configureEditor () {
-  const textarea = document.querySelector('textarea')
-  const saveButton = document.querySelector('#save')
-  const editButton = document.querySelector('#edit')
-  const editArea = document.querySelector('#edit-area')
-  if (editButton && editArea && textarea && saveButton) {
-    editButton.addEventListener('click', () => {
-      const editing = editArea.className === 'active'
-      editArea.className = editing ? '' : 'active'
-      if (!editing) textarea.focus()
-    })
+  editButton.addEventListener('click', toggleEditor)
 
-    textarea.value = getAll({ raw: true })
-    saveButton.addEventListener('click', () => {
-      localStorage.setItem(LOCAL_STORAGE_KEY, textarea.value)
-      window.location.reload(false)
-    })
-  }
+  textarea.value = getAll({ raw: true })
+  saveButton.addEventListener('click', () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, textarea.value)
+    toggleEditor()
+    suggest()
+  })
 }
 
 configureEditor()
-setTimeout(() => suggest(), 750)
-
-
+suggest()
