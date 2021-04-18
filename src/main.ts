@@ -2,8 +2,9 @@ const suggestionEl = document.querySelector('#suggestion')
 const textarea = document.querySelector('textarea')
 const saveButton = document.querySelector('#save')
 const editButton = document.querySelector('#edit')
+const againButton = document.querySelector('#again')
 const editArea = document.querySelector('#edit-area')
-if (!suggestionEl || !textarea || !saveButton || !editButton || !editArea) {
+if (!suggestionEl || !textarea || !saveButton || !editButton || !againButton || !editArea) {
   throw new Error('cannot find expected DOM elements')
 }
 
@@ -24,6 +25,7 @@ function getAll ({ raw = false } = {}) {
 }
 
 function suggest () {
+  againButton.style.display = 'none'
   suggestionEl.innerHTML = '<span class="loader"></span>'
 
   const possibilities = getAll()
@@ -33,6 +35,7 @@ function suggest () {
 
   setTimeout(() => {
     suggestionEl.innerHTML = suggestion
+    againButton.style.display = null
   }, 750)
 }
 
@@ -42,16 +45,14 @@ function toggleEditor () {
   if (!editing) textarea.focus()
 }
 
-function configureEditor () {
-  editButton.addEventListener('click', toggleEditor)
+textarea.value = getAll({ raw: true })
+saveButton.addEventListener('click', () => {
+  localStorage.setItem(LOCAL_STORAGE_KEY, textarea.value)
+  toggleEditor()
+  suggest()
+})
 
-  textarea.value = getAll({ raw: true })
-  saveButton.addEventListener('click', () => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, textarea.value)
-    toggleEditor()
-    suggest()
-  })
-}
+againButton.addEventListener('click', suggest)
+editButton.addEventListener('click', toggleEditor)
 
-configureEditor()
 suggest()
